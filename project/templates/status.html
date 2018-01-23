@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+
+<!DOCTYPE html>
+
+{% block title %}Status{% endblock %}
+{% block content %}
+  <body>
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-1">
+
+        </div>
+          <div class="col-lg-10 text-left">
+          <h1 style="text-align: center">Request Information</h1><br><br />
+
+          {% for item in requestdata %}
+          <h3><b>Name:  </b></h3><h4>{{ item.first_name }} {{ item.last_name }}</h4><br />
+          <h3><b>Address:   </b></h3><h4>{{ item.address1 }}</h4><br />
+          <h3><b>City:   </b></h3><h4>{{ item.city }}</h4><br />
+          <h3><b>State:   </b></h3><h4>{{ item.state }}</h4><br />
+          <h3><b>Zip:   </b></h3><h4>{{ item.postalcode }}</h4><br />
+          <h3><b>Phone:   </b></h3><h4>{{ item.phone }}</h4><br />
+          <h3><b>Email:   </b></h3><h4>{{ item.email }}</h4><br />
+          <h3><b>Volunteers Needed:   </b></h3><h4>{{ item.people_needed }}</h4><br />
+          <h3><b>Phone:   </b></h3><h4>{{ item.phone }}</h4><br />
+          <p>{{ item.description }}</p><br />
+          {% endfor %}
+          <hr style="border-top: 1px solid white">
+          <h1 style="text-align: center">Volunteer Information</h1><br><br />
+          {% for item in volunteerdata %}
+          <h4><b>Name:    </b></h4><h5>  {{ item.first_name }} {{ item.last_name }}</h5><h4> <b> Phone:    </b></h4><h5>   {{ item.phone }} </h5><h4><b> Email:     </b></h4><h5>  {{ item.email }}</h5><h4><b> People:    </b></h4><h5>  {{ item.volunteers }}</h5><br />
+          {% endfor %}
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </body>
+
+<style>
+h1,h2,h3,h4,h5{
+  display: inline;
+}
+
+</style>
+{% endblock %}

@@ -1,0 +1,125 @@
+{% extends "base.html" %}
+
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>{% block title %}Request Form{% endblock %}</title>
+    <meta charset="UTF-8">
+    <!-- <link href=".css" rel="stylesheet" type="text/css" /> -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css" integrity="sha384-PsH8R72JQ3SOdhVi3uxftmaW6Vc51MKb0q5P2rRUpPvrszuE4W1povHYgTpBfshb" crossorigin="anonymous">
+    <style>
+
+    </style>
+  </head>
+  {% block content %}
+  <body>
+    <div class="container">
+      <div class="row">
+        <div class="col-md-3">
+
+        </div>
+        <div class="col-md-6">
+          <h1 style="text-align: center">Request Form</h1>
+
+          <h2 style="text-align: center">Contact information</h2>
+          <form class="form" action ="/rstatus" method ="post" id="form">
+
+
+            <div class="form-group">
+              <label for="first_name">First Name:</label>
+              <input type="text" class="form-control" id="first_name" name="first_name" placeholder="First Name" required>
+            </div>
+
+            <div class="form-group">
+              <label for="first_name">Last Name:</label>
+              <input type="text" class="form-control" id="last_name" name="last_name" placeholder="Last Name" required>
+            </div>
+
+            <div class="form-group">
+              <label for="address1">Address 1:</label>
+              <input type="text" class="form-control" id="address1" name="address1" placeholder="Address" required>
+            </div>
+
+            <div class="form-group">
+              <label for="address2">Address 2:</label>
+              <input type="text" class="form-control" id="address2" name="address2" placeholder="Optional">
+            </div>
+
+            <div class="form-group">
+              <label for="address3">Address 3:</label>
+              <input type="text" class="form-control" id="address3" name="address3" placeholder="Optional">
+            </div>
+
+            <div class="form-group">
+              <label for="city">City:</label>
+              <input type="text" class="form-control" id="city" name="city" placeholder="City" required>
+            </div>
+
+            <div class="form-group">
+              <label for="state">State:</label>
+              <input type="text" class="form-control" id="state" name="state" placeholder="State" required>
+            </div>
+
+            <div class="form-group">
+              <label for="postalcode">Postal Code:</label>
+              <input type="text" class="form-control" id="postalcode" name="postalcode" placeholder="#####"required>
+            </div>
+
+            <div class="form-group">
+              <label for="phone">Phone Number:</label>
+              <input type="text" class="form-control" id="phone" name="phone" placeholder="###-###-####" required>
+            </div>
+
+            <div class="form-group">
+              <label for="email">Email Adress:</label>
+              <input type="email" class="form-control" id="email" name="email" placeholder="yourname@email.com" required>
+            </div>
+
+
+            <h2>Task Description</h2>
+            <div class="form-group">
+              <label for="description">Message:</label>
+              <textarea class="form-control" name='description' type="textarea" id="description" placeholder="Enter Description of Task" maxlength="200" rows="10" required></textarea>
+            </div>
+
+            <div class="form-group">
+              <label for="people_needed">Number of Volunteers Required:</label>
+              <select class="form-control" name="people_needed" id="people_needed">
+                <option>1</option>
+                <option>2</option>
+                <option>3</option>
+                <option>4</option>
+                <option>5</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label for="truck_needed">Do you require a large vehicle?:</label>
+              <select class="form-control" name="truck_needed" id="truck_needed">
+                <option></option>
+                <option>Yes</option>
+                <option>No</option>
+              </select>
+            </div>
+            <div class = "form-row">
+              <div class= "form-group buttoncontainer">
+                <div class="button" onclick="submit_form()">
+                  <span class="text" onclick="submit_form()">Submit</span>
+                </div>
+                <div class="progress-bar"></div>
+                <svg x="0px" y="0px"
+              	 viewBox="0 0 25 30" style="enable-background:new 0 0 25 30;">
+                  <path class="check" class="st0" d="M2,19.2C5.9,23.6,9.4,28,9.4,28L23,2"/>
+                </svg>
+              </div>
+            </div>
+          </form>
+        </div>
+        <div class="col-md-3">
+
+        </div>
+      </div>
+    </div>
+  </body>
+  {% endblock %}
+</html>

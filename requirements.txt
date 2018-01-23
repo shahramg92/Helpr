@@ -1,0 +1,7 @@
+tornado==4.5.2
+jinja2==2.9.6
+boto3
+python-dotenv
+requests
+peewee
+psycopg2

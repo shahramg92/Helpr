@@ -1,0 +1,164 @@
+{% extends "base.html" %}
+
+{% block title %} Map {% endblock %}
+
+{% block head %}
+
+{% endblock %}
+
+{% block content %}
+<div class="form-group" style="text-align:center">
+<h2>How To Use Map:</h2>
+</div>
+<div class="form-group" style="display:flex; justify-content:center">
+  <ul>
+    <li>If you are looking for help, please click on "Request Help" at the top right of the website</li><br>
+    <li>After filling out the form on the Request help page, a personal pin will be created</li><br>
+    <li>Someone can now click on your pin and if they choose, can volunteer to help you!</li><br>
+</ul>
+</div>
+</div>
+<div class="row d-flex justify-content-center" style="margin-bottom:150px;">
+  <div class="col-lg-8 col-md-8 col-sm-8" id="map" style="width: 80%; height: 500px; color: black";></div>
+</div>
+<script>
+
+  var clicked = false;
+  function initMap() {
+    var houston = {lat: 29.7604267, lng: -95.3698028};
+    var map = new google.maps.Map(document.getElementById('map'), {
+      zoom: 9,
+      center: houston
+    });
+
+    {% for item in mapdata %}
+
+      var markers = {
+          coords: {
+            lat: {{ item.latitude }},
+            lng: {{ item.longitude }} },
+          volunteers: {{ item.people_needed }},
+          content1: '<h6>{{ item.description }}</h6><br><p><b>Name: </b> {{ item.first_name }} {{ item.last_name }}<br><b>Address: </b> {{ item.address1 }}<br><b>Truck Needed: </b>{{ item.truck_needed }}<br><b>Volunteers Needed: </b>{{ item.people_needed }}</p>',
+          content: '<div style="margin-right: 15px;">' +
+            '<h6>{{ item.description }}</h6><br><p><b>Name: </b> {{ item.first_name }} {{ item.last_name }} <br><b>Address: </b> {{ item.address1 }}<br><b>Truck Needed: </b>{{ item.truck_needed }}<br><b>Volunteers Needed: </b>{{ item.people_needed }}' +
+            '<form class="form" action ="/status" method ="post" style=color: black>' +
+            '<input type="hidden" name="id" value="{{ item.id }}"/>' +
+            '<button type="submit" class="btn btn-primary btn-sm btn-block">Status</button>' +
+            '</form>' +
+            '<br />' +
+            '<form class="form" action ="/vstatus" method ="post" style=color: black>' +                           
+            '<div class="form-group">' +
+              '<label for="first_name">Name:</label>' +
+              '<input type="text" class="form-control" id="first_name" name="first_name" placeholder="First Name" required>' +
+            '</div>' +
+            '<div class="form-group">' +
+              '<label for="last_name">Last Name:</label>' +
+              '<input type="text" class="form-control" id="last_name" name="last_name" placeholder="Last Name" required>' +
+            '</div>' +
+            '<div class="form-group">' +
+              '<label for="phone">Phone:</label>' +
+              '<input type="text" class="form-control" id="phone" name="phone" placeholder="###-###-####" required>' +
+            '</div>' +
+            '<div class="form-group">' +
+              '<label for="email">Email Address:</label>' +
+              '<input type="email" class="form-control" id="email" name="email" placeholder="yourname@email.com" required>' +
+            '</div>' +
+            '<div class="form-group">' +
+              '<label for="volunteers">Number of Volunteers:</label>' +
+              '<select class="form-control" class="volunteers" id="volunteers" name="volunteers">' +
+                '<option>1</option>' +
+                '<option>2</option>' +
+                '<option>3</option>' +
+                '<option>4</option>' +
+                '<option>5</option>' +
+              '</select>' +
+            '</div>' +
+            '<div class="form-group">' +
+              '<label for="has_truck">Do you have a large vehicle?:</label>' +
+              '<select class="form-control" class="has_truck" id="has_truck" name="has_truck">' +
+                '<option></option>' +
+                '<option>Yes</option>' +
+                '<option>No</option>' +
+              '</select>' +
+            '</div>' +
+            '<input type="hidden" name="id" value="{{ item.id }}"/>' +
+            '<button type="submit" class="btn btn-primary btn-lg btn-block">I want to volunteer</button>' +
+            '</form>' +
+            '</div>'
+      };
+
+
+      // Loop through markers
+      addMarker(markers);
+
+      //Set marker color
+      function iconImage() {
+        if (markers.volunteers == 0){
+
+          markers.content = '<h6>No volunteers needed at the moment!</h6>'
+          return 'http://maps.google.com/mapfiles/ms/icons/red-dot.png'
+
+        }
+        else {
+          return 'https://maps.google.com/mapfiles/ms/icons/green-dot.png'
+        }
+      };
+
+      // Add Marker Function
+      function addMarker(props){
+
+
+
+        var marker = new google.maps.Marker({
+          position:props.coords,
+          map:map,
+          icon: iconImage(),
+          animation: google.maps.Animation.DROP
+        });
+
+        // Check content
+        if(props.content){
+          var infoWindow = new google.maps.InfoWindow({
+            content:props.content
+          });
+
+
+          google.maps.event.addListener(marker, 'mouseover', function(){
+            if(!clicked) {
+              infoWindow.setContent(props.content1);
+              infoWindow.open(map, marker);
+            }
+          });
+
+          google.maps.event.addListener(marker, 'mouseout', function(){
+            if (!clicked) {
+              infoWindow.close(map, marker);
+            }
+          });
+
+          google.maps.event.addListener(marker, 'click', function(){
+            clicked = true;
+            infoWindow.setContent(props.content);
+            infoWindow.open(map, marker);
+          });
+          google.maps.event.addListener(infoWindow, 'closeclick', function() {
+            infoWindow.close();
+            map.panTo(marker.getPosition());
+            clicked = false;
+          });
+          google.maps.event.addListener(map, 'click', function() {
+            infoWindow.close();
+            map.panTo(marker.getPosition());
+            clicked = false;
+          })
+        }
+      }
+    {% endfor %}
+  }
+
+
+</script>
+<script async defer
+  src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC2iL6ewJ-ZbMXwS2nTEsGXHZbzOOCkFWo&callback=initMap">
+</script>
+{% endblock %}
